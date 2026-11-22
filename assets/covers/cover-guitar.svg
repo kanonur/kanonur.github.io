@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" width="1200" height="480" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round">
+<path d="M112 52 C 102 51, 97 42, 101 33 C 104 25, 94 20, 82 24 C 70 28, 60 30, 48 26 C 26 19, 12 38, 13 60 C 12 82, 26 101, 48 94 C 60 90, 70 92, 82 96 C 94 100, 104 95, 101 87 C 97 78, 102 69, 112 68" stroke-width="1.6"/>
+<path d="M112 52 L250 54 M112 68 L250 66" stroke-width="1.6"/>
+<path d="M238.21 53.83 V66.17 M227.09 53.67 V66.33 M216.59 53.52 V66.48 M206.68 53.37 V66.63 M197.32 53.24 V66.76 M188.49 53.11 V66.89 M180.16 52.99 V67.01 M172.29 52.87 V67.13 M164.87 52.77 V67.23 M157.86 52.66 V67.34 M151.24 52.57 V67.43 M145 52.48 V67.52 M139.11 52.39 V67.61 M133.54 52.31 V67.69 M128.29 52.24 V67.76 M123.34 52.16 V67.84 M118.66 52.1 V67.9 M114.25 52.03 V67.97" stroke-width="0.8"/>
+<circle cx="221.84" cy="60" r="1.3" stroke-width="0.8"/>
+<circle cx="202" cy="60" r="1.3" stroke-width="0.8"/>
+<circle cx="184.33" cy="60" r="1.3" stroke-width="0.8"/>
+<circle cx="168.58" cy="60" r="1.3" stroke-width="0.8"/>
+<path d="M250 54 C 262 49, 280 45, 291 48 C 296 52, 296 68, 291 72 C 280 75, 262 71, 250 66" stroke-width="1.6"/>
+<path d="M250 53.5 V66.5" stroke-width="2"/>
+<circle cx="263" cy="53" r="2.2" stroke-width="1"/>
+<circle cx="263" cy="67" r="2.2" stroke-width="1"/>
+<circle cx="273" cy="53" r="2.2" stroke-width="1"/>
+<circle cx="273" cy="67" r="2.2" stroke-width="1"/>
+<circle cx="283" cy="53" r="2.2" stroke-width="1"/>
+<circle cx="283" cy="67" r="2.2" stroke-width="1"/>
+<rect x="60" y="51" width="7" height="18" rx="2" stroke-width="1.1"/>
+<rect x="82" y="51" width="7" height="18" rx="2" stroke-width="1.1"/>
+<rect x="36" y="51" width="8" height="18" rx="1" stroke-width="1.1"/>
+<circle cx="28" cy="82" r="3.2" stroke-width="1"/>
+<circle cx="40" cy="88" r="3.2" stroke-width="1"/>
+<circle cx="54" cy="86" r="3.2" stroke-width="1"/>
+<path d="M40 55.5 L250 55.6 M40 57.3 L250 57.36 M40 59.1 L250 59.12 M40 60.9 L250 60.88 M40 62.7 L250 62.64 M40 64.5 L250 64.4" stroke-width="0.45"/>
+<path d="M6 60 H298" stroke-width="0.6" stroke-dasharray="10 3 2 3"/>
+<path d="M13 98 V116 M294 76 V116" stroke-width="0.6"/>
+<path d="M13 112 H294 M19 109 L13 112 L19 115 M288 109 L294 112 L288 115" stroke-width="0.9"/>
+</svg>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onur KAN — Materials Engineer</title>
+<meta name="description" content="Onur KAN, materials engineer (M.Sc., University of Padova). Education, experience, learnings and projects.">
+<meta name="theme-color" content="#7C8D80">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Onur KAN — Materials Engineer">
+<meta property="og:description" content="Education, experience, learnings and projects of Onur KAN, materials engineer based in Padova, Italy.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;800&amp;family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script>
+/* ============================================================
+   SITE SETTINGS — the only part you normally need to edit
+   ============================================================ */
+window.SITE = {
+
+  /* Background of the home page:
+     'Lamp'                 the sage wall with the lamp
+     'White brush strokes'  the white wall texture
+     'Sage wall'            the plain sage wall                          */
+  background: 'Lamp',
+
+  /* Folder that holds your pictures (next to this index.html). */
+  imagesFolder: 'images/',
+
+  /* Each picture on the site -> its file inside the images folder.
+     The right-hand side must match your folder and file names exactly
+     (GitHub cares about capital letters). Remove a line to hide that
+     picture; the site then shows an empty frame instead.            */
+  images: {
+    'onur-kan.jpg':                   'about/onur-kan.jpg',
+
+    'mesh-refinement-bracket.png':    'Learnings & Projects/Finite Element Analysis/mesh-refinement-bracket.png',
+    'heat-flow-analysis.gif':         'Learnings & Projects/Finite Element Analysis/heat-flow-analysis.gif',
+    'beam-buckling-study.png':        'Learnings & Projects/Finite Element Analysis/beam-buckling-study.png',
+    'car-accident-simulation.gif':    'Learnings & Projects/Finite Element Analysis/car-accident-simulation.gif',
+    'topology-optimized-bracket.png': 'Learnings & Projects/Finite Element Analysis/topology-optimized-bracket.png',
+
+    'flange-piping-assembly.png':     'Learnings & Projects/3D Modelling/flange-piping-assembly.png',
+    'four-pipe-manifold.png':         'Learnings & Projects/3D Modelling/four-pipe-manifold.png',
+    'wall-mounted-hook.png':          'Learnings & Projects/3D Modelling/wall-mounted-hook.png',
+    'twisted-ring-geometry.png':      'Learnings & Projects/3D Modelling/twisted-ring-geometry.png',
+    'mario-desk-organizer.png':       'Learnings & Projects/3D Modelling/mario-desk-organizer.png',
+
+    'iso.png':                        'Learnings & Projects/Fender Stratocaster/iso.png',
+    'technical-draw-1.png':           'Learnings & Projects/Fender Stratocaster/technical draw-1.png',
+    'assembly-fingerboard.png':       'Learnings & Projects/Fender Stratocaster/assembly-fingerboard.png',
+    'top-zoom-body.png':              'Learnings & Projects/Fender Stratocaster/top zoom body.png',
+
+    'headphones-concept.png':         'Learnings & Projects/Headphones/Açık arka stüdyo kulaklığı konsepti.png',
+
+    'redrosound-thumbnail.png':       'Learnings & Projects/RedroSound/thumpnail.png',
+    'redrosound-channel.png':         'Learnings & Projects/RedroSound/screenshot-of-channel.png',
+    'redrosound-logo.png':            'Learnings & Projects/RedroSound/logo.png'
+  }
+};
+</script>
+</head>
+<body>
+<div id="app"></div>
+
+<!-- Page template: the markup of the home page and all its windows.
+     {{name}} marks a value filled in by assets/js/site.js. -->
+<template id="page">
+<div class="{{rootClass}} hm-tone" onMouseMove="{{lampMove}}" onMouseLeave="{{lampLeave}}" style="position: relative; min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: {{p.bg}}; color: #000000; font-family: Lato, sans-serif; font-size: 16px; line-height: 1.6">
+
+<div class="hm-sage" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; opacity: {{sageOpacity}}"></div>
+<div class="hm-tex" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; opacity: {{texOpacity}}"></div>
+<sc-if value="{{lampOn}}" hint-placeholder-val="{{ false }}">
+<div class="lm-off" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none"></div>
+<div class="lm-on {{lampFlick}}" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; opacity: {{lampOp}}"></div>
+</sc-if>
+<div class="hm-glow" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 70% 85% at 24% 48%, rgba(155, 0, 20, 0.17) 0%, rgba(155, 0, 20, 0.07) 42%, rgba(155, 0, 20, 0) 75%); opacity: {{padovaOn}}"></div>
+<div class="hm-glow" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 70% 85% at 24% 48%, rgba(8, 56, 108, 0.19) 0%, rgba(8, 56, 108, 0.08) 42%, rgba(8, 56, 108, 0) 75%); opacity: {{marmaraOn}}"></div>
+
+<main class="hm-main" style="position: relative; flex: 1 1 auto; width: 100%; max-width: 1440px; margin: 0 auto; box-sizing: border-box; padding: 48px 56px; display: flex; flex-wrap: wrap; align-items: center; gap: 56px 96px">
+
+<section aria-label="Introduction" style="flex: 1 1 520px; min-width: 0">
+<h1 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-weight: 800; font-size: clamp(60px, 8vw, 128px); line-height: 1; letter-spacing: -0.015em; overflow: hidden; padding-bottom: 0.08em; text-align: left">
+<span class="hm-mask" style="display: block">Onur KAN</span>
+</h1>
+<p class="hm-up hm-d1 hm-headline" style="margin: 18px 0 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px, 2.6vw, 38px); font-weight: 400; line-height: 1.2; letter-spacing: 0; color: #000000">{{tx.headline}}</p>
+</section>
+
+<nav class="hm-nav" aria-label="Sections" ref="{{setNav}}" onMouseEnter="{{aboutOn}}" onMouseLeave="{{aboutOff}}" style="flex: 1 1 420px; min-width: 0; max-width: 560px; border-top: 1px solid {{p.line}}">
+<button class="hm-item hm-up hm-d1" type="button" aria-haspopup="dialog" onClick="{{openAbout}}" onFocus="{{aboutOn}}" onBlur="{{aboutOff}}" style="display: block; width: 100%; min-height: 96px; padding: 24px 0; border: 0; border-bottom: 1px solid {{p.line}}; background: transparent; cursor: pointer; text-align: left; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(34px, 3.2vw, 48px); font-weight: 400; line-height: 1.15; letter-spacing: -0.005em; color: #000000">{{tx.navAbout}}</button>
+<button class="hm-item hm-up hm-d2" type="button" aria-haspopup="dialog" onClick="{{openEducation}}" onFocus="{{aboutOn}}" onBlur="{{aboutOff}}" style="display: block; width: 100%; min-height: 96px; padding: 24px 0; border: 0; border-bottom: 1px solid {{p.line}}; background: transparent; cursor: pointer; text-align: left; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(34px, 3.2vw, 48px); font-weight: 400; line-height: 1.15; letter-spacing: -0.005em; color: #000000">{{tx.navEducation}}</button>
+<button class="hm-item hm-up hm-d3" type="button" aria-haspopup="dialog" onClick="{{openExperience}}" onFocus="{{aboutOn}}" onBlur="{{aboutOff}}" style="display: block; width: 100%; min-height: 96px; padding: 24px 0; border: 0; border-bottom: 1px solid {{p.line}}; background: transparent; cursor: pointer; text-align: left; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(34px, 3.2vw, 48px); font-weight: 400; line-height: 1.15; letter-spacing: -0.005em; color: #000000">{{tx.navExperience}}</button>
+<button class="hm-item hm-up hm-d4" type="button" aria-haspopup="dialog" onClick="{{openProjects}}" onFocus="{{aboutOn}}" onBlur="{{aboutOff}}" style="display: block; width: 100%; min-height: 96px; padding: 24px 0; border: 0; border-bottom: 1px solid {{p.line}}; background: transparent; cursor: pointer; text-align: left; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(34px, 3.2vw, 48px); font-weight: 400; line-height: 1.15; letter-spacing: -0.005em; color: #000000">{{tx.navProjects}}</button>
+</nav>
+</main>
+
+<footer class="hm-tone" style="position: relative; background-color: {{footBg}}; border-top: 1px solid rgba(0, 0, 0, 0.16)">
+<div class="hm-foot" style="max-width: 1440px; margin: 0 auto; box-sizing: border-box; padding: 22px 56px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 40px">
+<div class="hm-foot-links" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 36px; font-size: 15px">
+<a class="hm-link" href="mailto:kan.m.onur@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email kan.m.onur@gmail.com" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: #000000">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+kan.m.onur@gmail.com</a>
+<a class="hm-link" href="https://www.linkedin.com/in/onur-kan/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: #000000">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M8 10v7"></path><path d="M8 7v.01"></path><path d="M12 17v-4a2 2 0 0 1 4 0v4"></path><path d="M12 10v7"></path></svg>
+{{tx.linkedin}}</a>
+<a class="hm-link" href="https://www.google.com/maps/search/?api=1&amp;query=Padova%2C%20Italy" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: #000000">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>
+{{tx.place}}</a>
+</div>
+<div class="hm-foot-right" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px">
+<div class="hm-langs" role="group" aria-label="Language" style="display: inline-flex; align-items: center; gap: 2px; height: 52px; padding: 3px; box-sizing: border-box; border: 1px solid {{p.line}}; border-radius: 999px">
+<sc-for list="{{langs}}" as="lang" hint-placeholder-count="3">
+<button class="hm-lang" type="button" aria-label="{{lang.name}}" aria-pressed="{{lang.pressed}}" onClick="{{lang.pick}}" style="height: 44px; min-width: 52px; padding: 0 14px; border: 0; border-radius: 999px; cursor: pointer; font-family: Lato, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; background: {{lang.bg}}; color: #000000">{{lang.code}}</button>
+</sc-for>
+</div>
+<a class="hm-cv" href="Onur_Kan_CV.pdf" download="Onur_Kan_CV.pdf" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 12px; height: 52px; padding: 0 26px; box-sizing: border-box; border: 1.5px solid #000000; border-radius: 999px; background: {{p.bg}}; color: #000000; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; text-decoration: none">{{tx.cv}}
+<svg class="hm-cv-arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12"></path><path d="M6 11l6 6 6-6"></path><path d="M5 20h14"></path></svg>
+</a>
+</div>
+</div>
+</footer>
+
+<sc-if value="{{win.on}}" hint-placeholder-val="{{ false }}">
+<div class="wn-backdrop" onClick="{{closeWin}}" style="position: fixed; inset: 0; z-index: 50; background: rgba(18, 18, 16, 0.38); display: flex; align-items: center; justify-content: center; padding: 32px 16px; box-sizing: border-box">
+<div class="wn-window {{paperClass}} {{bigClass}}" role="dialog" aria-modal="true" aria-labelledby="wn-title" onClick="{{stop}}" onKeyDown="{{winKey}}" style="width: 100%; max-width: 1280px; max-height: calc(100vh - 64px); display: flex; flex-direction: column; background-color: {{p.panel}}; border: 1px solid {{p.line}}; border-radius: 10px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.22); overflow: hidden; color: #000000; font-family: Lato, sans-serif">
+
+<div onClick="{{headBack}}" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 26px 36px 22px; border-bottom: 1px solid {{p.line}}; cursor: {{headCur}}">
+<h2 id="wn-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(32px, 3.4vw, 46px); font-weight: 400; line-height: 1.1"><sc-if value="{{canBack}}" hint-placeholder-val="{{ false }}"><button class="wn-back" type="button" onClick="{{headBack}}" style="display: inline-flex; align-items: center; gap: 14px; padding: 0; border: 0; background: transparent; color: #000000; font: inherit; cursor: pointer; text-align: left"><svg class="wn-back-arrow" aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" style="flex: 0 0 auto"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">{{tx.backTo}}</span>{{win.title}}</button></sc-if><sc-if value="{{noBack}}" hint-placeholder-val="{{ true }}">{{win.title}}</sc-if></h2>
+<button class="wn-close" type="button" aria-label="{{tx.closeWindow}}" ref="{{setCloseBtn}}" onClick="{{closeWin}}" style="flex: 0 0 auto; width: 46px; height: 46px; border-radius: 999px; border: 1px solid #000000; background: transparent; color: #000000; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+</button>
+</div>
+
+<div class="wn-body {{bodyClass}}" style="overflow-y: auto; padding: 32px 36px 44px; font-size: 16px; line-height: 1.7">
+
+<sc-if value="{{win.about}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 32px 48px; align-items: flex-start">
+<div class="wn-portrait" style="flex: 0 1 320px; min-width: 200px">
+<sc-if value="{{hasPortrait}}"><img src="{{portrait}}" data-src="{{portrait}}" alt="Onur Kan" onError="{{imgErr}}" onLoad="{{imgOk}}" style="display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid {{p.line}}; box-sizing: border-box"></sc-if>
+</div>
+<div style="flex: 1 1 420px; min-width: 0">
+<sc-for list="{{about}}" as="para" hint-placeholder-count="4">
+<p style="margin: 0 0 18px; max-width: 880px; font-size: 16px; line-height: 1.7; text-align: justify">{{para}}</p>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{win.education}}" hint-placeholder-val="{{ false }}">
+<article style="position: relative; z-index: 0">
+<div aria-hidden="true" style="position: absolute; z-index: -1; inset: 0; pointer-events: none"><div class="ed-mark ed-padova" style="position: sticky; top: 20px; height: min(100%, calc(100vh - 220px)); background-position: center top; opacity: 0.08"></div></div>
+<h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 2.4vw, 30px); font-weight: 400; line-height: 1.25">{{ed.msc.title}}</h3>
+<div style="margin-top: 8px; font-size: clamp(20px, 2vw, 24px); font-weight: 700; line-height: 1.3">{{ed.msc.school}}</div>
+<div style="margin-top: 4px; font-size: 15px">{{ed.msc.place}}</div>
+<div style="margin-top: 4px; font-size: 15px">{{ed.msc.meta}}</div>
+<p style="margin: 16px 0 0; font-size: 16px; line-height: 1.7">{{ed.msc.intro}}</p>
+<div style="margin-top: 26px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.msc.coveredLabel}}</div>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{ed.msc.covered}}" as="it" hint-placeholder-count="7"><li style="margin-top: 6px"><sc-if value="{{it.hasLead}}" hint-placeholder-val="{{ true }}"><span style="font-weight: 700">{{it.lead}} </span></sc-if>{{it.text}}</li></sc-for>
+</ul>
+<div style="margin-top: 24px; padding: 22px 24px; background: rgba(0, 0, 0, 0.035); border: 1px solid {{p.line}}; border-radius: 8px">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.msc.thesisLabel}}</div>
+<div style="margin-top: 6px; font-family: 'Playfair Display', Georgia, serif; font-size: 21px; font-style: italic; line-height: 1.35">{{ed.msc.thesisTitle}}</div>
+<div style="margin-top: 4px; font-size: 14px">{{ed.msc.thesisMeta}}</div>
+<p style="margin: 14px 0 0; font-size: 15px">{{ed.msc.thesisText}}</p>
+</div>
+<div style="margin-top: 26px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.msc.handsLabel}}</div>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{ed.msc.hands}}" as="it" hint-placeholder-count="4"><li style="margin-top: 6px"><sc-if value="{{it.hasLead}}" hint-placeholder-val="{{ true }}"><span style="font-weight: 700">{{it.lead}} </span></sc-if>{{it.text}}</li></sc-for>
+</ul>
+<div style="margin-top: 26px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.msc.gainedLabel}}</div>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{ed.msc.gained}}" as="g" hint-placeholder-count="5"><li style="margin-top: 6px">{{g}}</li></sc-for>
+</ul>
+<button class="wn-cw-toggle" type="button" aria-expanded="{{cw.expanded}}" onClick="{{toggleCw}}" style="margin-top: 28px; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; padding: 0; border: 0; border-top: 1px solid {{p.line}}; border-bottom: 1px solid {{p.line}}; background: transparent; cursor: pointer; color: #000000; font-family: inherit; text-align: left">
+<span style="font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.msc.courseworkLabel}} <span style="font-weight: 400; letter-spacing: 0.06em">· {{ed.msc.coursesCount}}</span></span>
+<svg class="wn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="transform: {{cw.rot}}"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<sc-if value="{{cw.open}}" hint-placeholder-val="{{ false }}">
+<div class="wn-cw-grid" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px">
+<sc-for list="{{courses}}" as="course" hint-placeholder-count="13">
+<button class="wn-cw-item" type="button" aria-haspopup="dialog" onClick="{{course.open}}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; padding: 12px 0; border: 0; border-bottom: 1px solid {{p.line}}; background: transparent; cursor: pointer; color: #000000; font-family: inherit; text-align: left">
+<span style="font-size: 16px; font-weight: 700; line-height: 1.35">{{course.name}}</span>
+<svg class="wn-go" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex: 0 0 auto"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg>
+</button>
+</sc-for>
+</div>
+</sc-if>
+</article>
+<article style="position: relative; z-index: 0; margin-top: 40px; padding-top: 32px; min-height: 380px; box-sizing: border-box; border-top: 1px solid {{p.line}}">
+<div aria-hidden="true" style="position: absolute; z-index: -1; top: 12px; right: 0; bottom: 0; left: 0; pointer-events: none"><div class="ed-mark ed-marmara" style="position: sticky; top: 20px; height: min(100%, calc(100vh - 220px)); background-position: center top; opacity: 0.09"></div></div>
+<h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 2.4vw, 30px); font-weight: 400; line-height: 1.25">{{ed.bsc.title}}</h3>
+<div style="margin-top: 8px; font-size: clamp(20px, 2vw, 24px); font-weight: 700; line-height: 1.3">{{ed.bsc.school}}</div>
+<div style="margin-top: 4px; font-size: 15px">{{ed.bsc.place}}</div>
+<div style="margin-top: 4px; font-size: 15px">{{ed.bsc.meta}}</div>
+<p style="margin: 16px 0 0; font-size: 16px; line-height: 1.7">{{ed.bsc.intro}}</p>
+<div style="margin-top: 26px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.bsc.coveredLabel}}</div>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{ed.bsc.covered}}" as="it" hint-placeholder-count="6"><li style="margin-top: 6px"><sc-if value="{{it.hasLead}}" hint-placeholder-val="{{ true }}"><span style="font-weight: 700">{{it.lead}} </span></sc-if>{{it.text}}</li></sc-for>
+</ul>
+<div style="margin-top: 26px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.bsc.industryLabel}}</div>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{ed.bsc.industry}}" as="g" hint-placeholder-count="2"><li style="margin-top: 6px">{{g}}</li></sc-for>
+</ul>
+<div style="margin-top: 26px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{ed.bsc.gainedLabel}}</div>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{ed.bsc.gained}}" as="g" hint-placeholder-count="5"><li style="margin-top: 6px">{{g}}</li></sc-for>
+</ul>
+<p style="margin: 22px 0 0; font-size: 15px"><span style="font-weight: 700">{{ed.bsc.activitiesLabel}}</span> {{ed.bsc.activities}}</p>
+</article>
+</sc-if>
+
+<sc-if value="{{win.experience}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{exSlider}}" hint-placeholder-val="{{ true }}">
+<div role="region" aria-roledescription="carousel" aria-label="Work experience" style="position: relative">
+<div aria-live="polite" aria-atomic="true" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">{{ex.announce}}</div>
+<div class="ex-tl-wrap" style="padding: 0 68px; border-bottom: 1px solid {{p.line}}">
+<div role="group" aria-label="Experience timeline" style="position: relative; height: 92px">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 58px; height: 1px; background: rgba(0, 0, 0, 0.35)"></div>
+<sc-for list="{{exYears}}" as="yr" hint-placeholder-count="7">
+<div aria-hidden="true" style="position: absolute; top: 64px; left: {{yr.left}}; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center"><span style="width: 1px; height: 5px; background: rgba(0, 0, 0, 0.45)"></span><span style="margin-top: 4px; font-size: 11px; letter-spacing: 0.06em; line-height: 1">{{yr.y}}</span></div>
+</sc-for>
+<sc-for list="{{exJobs}}" as="t" hint-placeholder-count="4">
+<div class="ex-bar" aria-hidden="true" style="position: absolute; top: 55px; left: {{t.left}}; width: {{t.width}}; height: 7px; box-sizing: border-box; border: 1px solid #000000; border-radius: 4px; background: {{t.barBg}}"></div>
+<button class="ex-tl-btn" type="button" aria-label="{{t.label}}" aria-current="{{t.current}}" onClick="{{t.go}}" style="position: absolute; top: 0; left: {{t.center}}; transform: translateX(-50%); height: 68px; min-width: 56px; padding: 6px 8px 0; border: 0; background: transparent; cursor: pointer; color: #000000; font-family: inherit; display: flex; flex-direction: column; align-items: center; white-space: nowrap"><span class="ex-tl-name" style="font-size: 14px; font-weight: {{t.weight}}; line-height: 1.2">{{t.name}}</span><span style="margin-top: 3px; font-size: 12px; line-height: 1.2">{{t.years}}</span></button>
+</sc-for>
+<div class="ex-tl-marker" aria-hidden="true" style="position: absolute; top: 52px; left: {{ex.marker}}; width: 13px; height: 13px; margin-left: -6.5px; box-sizing: border-box; border-radius: 999px; background: #000000; box-shadow: 0 0 0 3px {{p.panel}}; pointer-events: none"></div>
+</div>
+</div>
+<div class="ex-car" style="display: flex; gap: 20px">
+<div style="flex: 0 0 auto">
+<button class="ex-arrow" type="button" aria-label="Earlier experience" aria-disabled="{{ex.prevOff}}" onClick="{{exPrev}}" style="position: sticky; top: calc(50vh - 110px); margin-top: 24px; width: 48px; height: 48px; border-radius: 999px; border: 1px solid #000000; background: {{p.panel}}; color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; opacity: {{ex.prevOp}}; cursor: {{ex.prevCur}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+</div>
+<div class="ex-view" onPointerDown="{{exDown}}" onPointerMove="{{exMove}}" onPointerUp="{{exUp}}" onPointerCancel="{{exUp}}" onWheel="{{exWheel}}" style="flex: 1 1 auto; min-width: 0; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none">
+<div class="ex-track" ref="{{setExTrack}}" style="display: flex; align-items: flex-start; transform: {{ex.shift}}">
+<sc-for list="{{exJobs}}" as="job" hint-placeholder-count="4">
+<article class="ex-slide" aria-roledescription="slide" aria-label="{{job.slideLabel}}" aria-hidden="{{job.hidden}}" style="flex: 0 0 100%; box-sizing: border-box; position: relative; z-index: 0; display: flex; flex-wrap: wrap; gap: 8px 40px; padding: 34px 28px 32px; opacity: {{job.op}}">
+<sc-if value="{{job.hasBg}}" hint-placeholder-val="{{ false }}"><div class="{{job.bgClass}}" aria-hidden="true" style="position: absolute; z-index: -1; top: 16px; right: 0; bottom: 12px; left: 0; border-radius: 8px; opacity: 0.1; pointer-events: none"></div></sc-if>
+<div style="flex: 0 0 200px">
+<div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase">{{job.when}}</div>
+<div style="margin-top: 2px; font-size: 14px">{{job.where}}</div>
+</div>
+<div style="flex: 1 1 420px; min-width: 0">
+<h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 400; line-height: 1.25">{{job.role}}</h3>
+<div style="margin-top: 4px; font-size: 18px; font-weight: 700; line-height: 1.3">{{job.company}}</div>
+<sc-if value="{{job.hasAbout}}" hint-placeholder-val="{{ true }}"><p style="margin: 10px 0 0; font-size: 16px; line-height: 1.7; font-style: italic">{{job.about}}</p></sc-if>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{job.items}}" as="item" hint-placeholder-count="3"><li style="margin-top: 6px">{{item}}</li></sc-for>
+</ul>
+<p style="margin: 14px 0 0; padding-left: 14px; border-left: 2px solid {{p.line}}; font-size: 15px"><span style="font-weight: 700">{{tx.took}}</span> {{job.took}}</p>
+</div>
+</article>
+</sc-for>
+</div>
+</div>
+<div style="flex: 0 0 auto">
+<button class="ex-arrow" type="button" aria-label="Later experience" aria-disabled="{{ex.nextOff}}" onClick="{{exNext}}" style="position: sticky; top: calc(50vh - 110px); margin-top: 24px; width: 48px; height: 48px; border-radius: 999px; border: 1px solid #000000; background: {{p.panel}}; color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; opacity: {{ex.nextOp}}; cursor: {{ex.nextCur}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{exList}}" hint-placeholder-val="{{ false }}">
+<div style="border-top: 1px solid {{p.line}}">
+<sc-for list="{{jobs}}" as="job" hint-placeholder-count="4">
+<article style="position: relative; z-index: 0; display: flex; flex-wrap: wrap; gap: 8px 40px; padding: 26px 0; border-bottom: 1px solid {{p.line}}">
+<sc-if value="{{job.hasBg}}" hint-placeholder-val="{{ false }}"><div class="{{job.bgClass}}" aria-hidden="true" style="position: absolute; z-index: -1; top: 10px; right: -16px; bottom: 10px; left: -16px; border-radius: 8px; opacity: 0.1; pointer-events: none"></div></sc-if>
+<div class="ex-side" style="flex: 0 0 200px">
+<div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase">{{job.when}}</div>
+<div style="margin-top: 2px; font-size: 14px">{{job.where}}</div>
+</div>
+<div style="flex: 1 1 420px; min-width: 0">
+<h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 400; line-height: 1.25">{{job.role}}</h3>
+<div style="margin-top: 4px; font-size: 18px; font-weight: 700; line-height: 1.3">{{job.company}}</div>
+<div class="ex-meta" style="margin-top: 8px"><div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase">{{job.when}}</div><div style="margin-top: 2px; font-size: 14px">{{job.where}}</div></div>
+<sc-if value="{{job.hasAbout}}" hint-placeholder-val="{{ true }}"><p style="margin: 10px 0 0; font-size: 16px; line-height: 1.7; font-style: italic">{{job.about}}</p></sc-if>
+<ul style="margin: 10px 0 0; padding-left: 20px; font-size: 15px">
+<sc-for list="{{job.items}}" as="item" hint-placeholder-count="3"><li style="margin-top: 6px">{{item}}</li></sc-for>
+</ul>
+<p style="margin: 14px 0 0; padding-left: 14px; border-left: 2px solid {{p.line}}; font-size: 15px"><span style="font-weight: 700">{{tx.took}}</span> {{job.took}}</p>
+</div>
+</article>
+</sc-for>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{win.projects}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{lp.grid}}" hint-placeholder-val="{{ true }}">
+<div class="lp-grid3 pj-grow">
+<sc-for list="{{lp.allCards}}" as="c" hint-placeholder-count="6">
+<div style="min-width: 0">
+<button id="{{c.id}}" class="pj-tile" type="button" onClick="{{c.open}}" style="display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; color: #000000; font-family: inherit; text-align: left">
+<span class="{{c.picCls}} pj-pic lp-pic" style="position: relative; display: block; width: 100%; height: calc((100vh - 280px) / 2); min-height: 150px; border: 1px solid {{p.line}}; border-radius: 10px; box-sizing: border-box; overflow: hidden">
+<sc-if value="{{c.hasSrc}}" hint-placeholder-val="{{ false }}"><img src="{{c.src}}" data-src="{{c.src}}" alt="" loading="lazy" onError="{{imgErr}}" onLoad="{{imgOk}}" style="position: absolute; {{c.box}}; object-fit: {{c.fit}}"></sc-if>
+<sc-if value="{{c.hasArt}}" hint-placeholder-val="{{ false }}"><img src="{{c.art}}" alt="" style="position: absolute; left: 8%; top: 14%; width: 84%; height: 48%; object-fit: contain; opacity: 0.55"></sc-if>
+<span style="position: absolute; top: 12px; left: 12px; padding: 6px 11px; border-radius: 999px; background: rgba(250, 248, 242, 0.9); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; line-height: 1.2; text-transform: uppercase">{{c.kind}}</span>
+<sc-if value="{{c.showFile}}" hint-placeholder-val="{{ true }}"><span style="position: absolute; top: 16px; right: 14px; font-size: 11px; letter-spacing: 0.04em">{{c.cover}}</span></sc-if>
+<span style="position: absolute; left: 14px; bottom: 14px; max-width: calc(100% - 28px); box-sizing: border-box; padding: 9px 14px 10px; border-radius: 8px; background: rgba(250, 248, 242, 0.88); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px)"><span class="pj-title" style="display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(20px, 2vw, 24px); line-height: 1.2">{{c.title}}</span><sc-if value="{{c.hasSub}}" hint-placeholder-val="{{ true }}"><span style="display: block; margin-top: 4px; font-size: 14px; line-height: 1.35">{{c.sub}}</span></sc-if></span>
+</span>
+</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{lp.detail}}" hint-placeholder-val="{{ false }}">
+<div class="pj-grow pj-detail" style="width: 100%; height: calc(100vh - 250px); min-height: 300px; overflow: hidden; display: flex; gap: 32px; box-sizing: border-box">
+<sc-if value="{{lp.cur.hasMedia}}" hint-placeholder-val="{{ true }}">
+<div class="pj-detail-media" style="flex: 1 1 44%; min-width: 0; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px">
+<div class="lp-main" style="position: relative; flex: 0 0 auto; aspect-ratio: 16 / 9">
+<div class="{{lp.cur.mainCls}}" role="img" aria-label="{{lp.cur.mainCaption}}" style="position: absolute; inset: 0; border: 1px solid {{p.line}}; border-radius: 10px; box-sizing: border-box; overflow: hidden; background-color: {{lp.cur.mainBg}}"><sc-if value="{{lp.cur.hasMainSrc}}" hint-placeholder-val="{{ false }}"><img src="{{lp.cur.mainSrc}}" data-src="{{lp.cur.mainSrc}}" alt="" onError="{{imgErr}}" onLoad="{{imgOk}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain"></sc-if><sc-if value="{{lp.cur.noMainSrc}}" hint-placeholder-val="{{ true }}"><span style="position: absolute; top: 12px; left: 14px; font-size: 11px; letter-spacing: 0.04em">{{lp.cur.mainFile}}</span></sc-if></div>
+<sc-if value="{{lp.cur.hasMainSrc}}" hint-placeholder-val="{{ false }}"><button class="lp-zoom" type="button" aria-label="{{tx.enlarge}}" onClick="{{lp.zoomOpen}}" style="position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 10px; background: transparent; cursor: zoom-in"><span aria-hidden="true" style="position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px; box-sizing: border-box; border-radius: 999px; border: 1px solid #000000; background: rgba(250, 248, 242, 0.92); color: #000000; display: inline-flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg></span></button></sc-if>
+<sc-if value="{{lp.cur.hasThumbs}}" hint-placeholder-val="{{ true }}">
+<button class="lp-arrow" type="button" aria-label="{{tx.prevImg}}" onClick="{{lp.prevImg}}" style="position: absolute; top: 50%; left: 14px; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 999px; border: 1px solid #000000; background: rgba(250, 248, 242, 0.92); color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<button class="lp-arrow" type="button" aria-label="{{tx.nextImg}}" onClick="{{lp.nextImg}}" style="position: absolute; top: 50%; right: 14px; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 999px; border: 1px solid #000000; background: rgba(250, 248, 242, 0.92); color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+</sc-if>
+</div>
+<p aria-live="polite" style="margin: 0; min-height: 2.9em; font-size: 13px; line-height: 1.45">{{lp.cur.mainCaption}}</p>
+<sc-if value="{{lp.cur.hasThumbs}}" hint-placeholder-val="{{ true }}">
+<div class="lp-thumbs" style="flex: 0 0 64px; display: grid; grid-template-columns: repeat({{lp.cur.imgN}}, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{lp.cur.images}}" as="im" hint-placeholder-count="5">
+<button class="{{im.cls}} lp-thumb" type="button" aria-label="{{im.label}}" aria-pressed="{{im.pressed}}" onClick="{{im.pick}}" style="position: relative; overflow: hidden; padding: 0; border: {{im.border}}; border-radius: 6px; background-color: transparent; cursor: pointer; box-sizing: border-box"><sc-if value="{{im.hasSrc}}" hint-placeholder-val="{{ false }}"><img src="{{im.src}}" data-src="{{im.src}}" alt="" loading="lazy" onError="{{imgErr}}" onLoad="{{imgOk}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></sc-if></button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+<div class="lp-text" style="flex: 1 1 56%; min-width: 0; min-height: 0; display: flex; flex-direction: column">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px">
+<div style="min-width: 0"><h3 style="margin: 0; padding-top: 4px; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 2.2vw, 30px); font-weight: 400; line-height: 1.2">{{lp.cur.title}}</h3><sc-if value="{{lp.cur.hasSub}}" hint-placeholder-val="{{ true }}"><p style="margin: 6px 0 0; font-size: 15px; line-height: 1.4; text-align: left">{{lp.cur.sub}}</p></sc-if></div>
+<button id="lp-back" class="wn-close" type="button" aria-label="{{tx.backAll}}" onClick="{{lp.close}}" style="flex: 0 0 auto; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #000000; background: transparent; color: #000000; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+<sc-if value="{{lp.cur.hasTags}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px">
+<sc-for list="{{lp.cur.tags}}" as="tg" hint-placeholder-count="4"><span style="font-size: 12px; line-height: 1; padding: 6px 10px; border: 1px solid {{p.line}}; border-radius: 999px">{{tg}}</span></sc-for>
+</div>
+</sc-if>
+<div role="group" aria-label="Sections" style="display: flex; flex-wrap: wrap; gap: 0 26px; margin-top: 14px; border-bottom: 1px solid {{p.line}}">
+<sc-for list="{{lp.cur.secTabs}}" as="st" hint-placeholder-count="3">
+<button class="lp-sub" type="button" aria-pressed="{{st.pressed}}" onClick="{{st.pick}}" style="min-height: 44px; margin-bottom: -1px; padding: 0; border: 0; border-bottom: 2px solid {{st.line}}; background: transparent; cursor: pointer; color: #000000; font-family: inherit; font-size: 14px; font-weight: {{st.weight}}">{{st.label}}</button>
+</sc-for>
+</div>
+<div class="wn-noscroll lp-panel" style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 16px 0 28px; font-size: 15px; line-height: 1.7">
+<sc-if value="{{lp.cur.showOverview}}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{lp.cur.intro}}" as="para" hint-placeholder-count="1"><p style="margin: 0 0 12px; font-size: 16px; line-height: 1.7">{{para}}</p></sc-for>
+<sc-if value="{{lp.cur.hasGoal}}" hint-placeholder-val="{{ false }}"><p style="margin: 0 0 12px; font-size: 16px; line-height: 1.7"><span style="font-weight: 700">{{tx.goal}}</span> {{lp.cur.goal}}</p></sc-if>
+<sc-if value="{{lp.cur.hasLink}}" hint-placeholder-val="{{ false }}"><p style="margin: 0 0 12px"><a class="hm-link" href="{{lp.cur.linkHref}}" target="_blank" rel="noopener noreferrer" style="font-weight: 700; color: #000000">{{lp.cur.link}}</a></p></sc-if>
+</sc-if>
+<sc-if value="{{lp.cur.showSec}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{lp.cur.sec.ordered}}" hint-placeholder-val="{{ false }}">
+<ol style="margin: 0; padding-left: 22px">
+<sc-for list="{{lp.cur.sec.items}}" as="it" hint-placeholder-count="4"><li style="margin-bottom: 10px"><sc-if value="{{it.hasLead}}" hint-placeholder-val="{{ true }}"><span style="font-weight: 700">{{it.lead}} </span></sc-if>{{it.text}}</li></sc-for>
+</ol>
+</sc-if>
+<sc-if value="{{lp.cur.sec.unordered}}" hint-placeholder-val="{{ true }}">
+<ul style="margin: 0; padding-left: 20px">
+<sc-for list="{{lp.cur.sec.items}}" as="it" hint-placeholder-count="4"><li style="margin-bottom: 10px"><sc-if value="{{it.hasLead}}" hint-placeholder-val="{{ true }}"><span style="font-weight: 700">{{it.lead}} </span></sc-if>{{it.text}}<sc-if value="{{it.hasSubs}}" hint-placeholder-val="{{ false }}"><ul style="margin: 6px 0 0; padding-left: 18px; list-style: circle"><sc-for list="{{it.subs}}" as="sb" hint-placeholder-count="3"><li style="margin-top: 3px">{{sb}}</li></sc-for></ul></sc-if><sc-if value="{{it.hasAfter}}" hint-placeholder-val="{{ false }}"><p style="margin: 8px 0 0">{{it.after}}</p></sc-if></li></sc-for>
+</ul>
+</sc-if>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{pjOff}}" hint-placeholder-val="{{ false }}">
+<div role="region" aria-roledescription="carousel" aria-label="Personal projects" style="position: relative">
+<div aria-live="polite" aria-atomic="true" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">{{pjS.announce}}</div>
+<div class="pj-steps-wrap" style="padding: 0 68px; border-bottom: 1px solid {{p.line}}">
+<div role="group" aria-label="Projects" style="position: relative; display: grid; grid-template-columns: repeat({{pjS.n}}, minmax(0, 1fr))">
+<sc-for list="{{pjSlides}}" as="t" hint-placeholder-count="5">
+<button class="pj-step" type="button" aria-current="{{t.current}}" onClick="{{t.go}}" style="display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 64px; padding: 4px 4px 14px; border: 0; background: transparent; cursor: pointer; color: #000000; font-family: inherit"><span style="font-family: 'Playfair Display', Georgia, serif; font-size: 22px; line-height: 1">{{t.num}}</span><span class="pj-step-name" style="font-size: 13px; font-weight: {{t.weight}}; line-height: 1.2; text-align: center">{{t.short}}</span></button>
+</sc-for>
+<div class="pj-step-bar" aria-hidden="true" style="position: absolute; bottom: -1px; left: {{pjS.barLeft}}; width: {{pjS.barW}}; height: 3px; background: #000000; pointer-events: none"></div>
+</div>
+</div>
+<div class="ex-car" style="display: flex; align-items: center; gap: 20px">
+<div style="flex: 0 0 auto">
+<button class="ex-arrow" type="button" aria-label="Previous project" aria-disabled="{{pjS.prevOff}}" onClick="{{pjPrev}}" style="width: 48px; height: 48px; border-radius: 999px; border: 1px solid #000000; background: {{p.panel}}; color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; opacity: {{pjS.prevOp}}; cursor: {{pjS.prevCur}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+</div>
+<div class="ex-view" onPointerDown="{{pjDown}}" onPointerMove="{{pjMove}}" onPointerUp="{{pjUp}}" onPointerCancel="{{pjUp}}" onWheel="{{pjWheel}}" style="flex: 1 1 auto; min-width: 0; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none">
+<div class="ex-track" ref="{{setPjTrack}}" style="display: flex; align-items: flex-start; transform: {{pjS.shift}}">
+<sc-for list="{{pjSlides}}" as="s" hint-placeholder-count="5">
+<article class="ex-slide" aria-roledescription="slide" aria-label="{{s.slideLabel}}" aria-hidden="{{s.hidden}}" style="flex: 0 0 100%; box-sizing: border-box; padding: 28px 28px 24px; opacity: {{s.op}}">
+<sc-if value="{{s.closed}}" hint-placeholder-val="{{ true }}">
+<h3 style="margin: 0; font-weight: 400">
+<button id="{{s.cardId}}" class="pj-tile" type="button" aria-expanded="false" onClick="{{s.toggle}}" style="display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; color: #000000; font-family: inherit; text-align: left">
+<span class="wn-ph pj-pic" style="position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; max-height: calc(100vh - 380px); min-height: 180px; border: 1px solid {{p.line}}; border-radius: 10px; box-sizing: border-box; overflow: hidden">
+<span style="position: absolute; top: 12px; left: 14px; font-size: 11px; letter-spacing: 0.04em">{{s.cover}}</span>
+<span style="position: absolute; left: 20px; bottom: 20px; max-width: calc(100% - 40px); box-sizing: border-box; padding: 12px 20px 14px; border-radius: 8px; background: rgba(250, 248, 242, 0.88); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px)"><span class="pj-title" style="display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.2">{{s.title}}</span></span>
+</span>
+</button>
+</h3>
+</sc-if>
+<sc-if value="{{s.open}}" hint-placeholder-val="{{ false }}">
+<div class="pj-open pj-detail" style="width: 100%; aspect-ratio: 16 / 9; max-height: calc(100vh - 380px); min-height: 180px; overflow: hidden; display: flex; gap: 28px; box-sizing: border-box">
+<div class="pj-detail-media" style="flex: 1 1 48%; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 10px">
+<div class="wn-ph" style="position: relative; flex: 1 1 auto; min-height: 0; border: 1px solid {{p.line}}; border-radius: 10px; box-sizing: border-box"><span style="position: absolute; top: 12px; left: 14px; font-size: 11px; letter-spacing: 0.04em">{{s.cover}}</span></div>
+<sc-if value="{{s.hasMore}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 72px; display: grid; grid-template-columns: repeat({{s.moreN}}, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{s.more}}" as="img" hint-placeholder-count="4">
+<div class="wn-ph" role="img" aria-label="{{img.caption}}" title="{{img.caption}}" style="position: relative; border: 1px solid {{p.line}}; border-radius: 6px; box-sizing: border-box; overflow: hidden"><span style="position: absolute; left: 6px; right: 6px; bottom: 5px; font-size: 10px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{img.caption}}</span></div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<div class="wn-noscroll" style="flex: 1 1 52%; min-width: 0; min-height: 0; overflow-y: auto">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding-top: 6px"><span style="font-family: 'Playfair Display', Georgia, serif; font-size: 30px; line-height: 1">{{s.num}}</span><span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase">{{s.when}}</span></div>
+<button id="{{s.backId}}" class="wn-close" type="button" aria-label="Close details" onClick="{{s.toggle}}" style="flex: 0 0 auto; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #000000; background: transparent; color: #000000; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+<h3 style="margin: 8px 0 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 2.2vw, 30px); font-weight: 400; line-height: 1.2">{{s.title}}</h3>
+<p style="margin: 14px 0 0; font-size: 15px; line-height: 1.7">{{s.text}}</p>
+</div>
+</div>
+</sc-if>
+</article>
+</sc-for>
+</div>
+</div>
+<div style="flex: 0 0 auto">
+<button class="ex-arrow" type="button" aria-label="Next project" aria-disabled="{{pjS.nextOff}}" onClick="{{pjNext}}" style="width: 48px; height: 48px; border-radius: 999px; border: 1px solid #000000; background: {{p.panel}}; color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; opacity: {{pjS.nextOp}}; cursor: {{pjS.nextCur}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{pjOff}}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{pjG.grid}}" hint-placeholder-val="{{ true }}">
+<div class="pj-grid">
+<sc-for list="{{steps}}" as="step" hint-placeholder-count="5">
+<h3 class="pj-gcard" style="grid-column: {{step.gcol}}; margin: 0; min-width: 0; font-weight: 400">
+<button id="{{step.headId}}" class="pj-tile" type="button" aria-expanded="false" onClick="{{step.toggle}}" style="display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; color: #000000; font-family: inherit; text-align: left">
+<span class="wn-ph pj-pic" style="position: relative; display: block; width: 100%; height: calc((100vh - 300px) / 2); min-height: 150px; border: 1px solid {{p.line}}; border-radius: 10px; box-sizing: border-box; overflow: hidden">
+<span style="position: absolute; top: 10px; left: 12px; font-size: 11px; letter-spacing: 0.04em">{{step.cover}}</span>
+<span style="position: absolute; left: 14px; bottom: 14px; max-width: calc(100% - 28px); box-sizing: border-box; padding: 9px 14px 10px; border-radius: 8px; background: rgba(250, 248, 242, 0.88); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px)"><span class="pj-title" style="display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.25">{{step.title}}</span></span>
+</span>
+</button>
+</h3>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{pjG.detail}}" hint-placeholder-val="{{ false }}">
+<div class="pj-grow pj-detail" style="width: 100%; height: calc(100vh - 290px); min-height: 260px; overflow: hidden; display: flex; gap: 28px; box-sizing: border-box">
+<div class="pj-detail-media" style="flex: 1 1 52%; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 10px">
+<div class="wn-ph" style="position: relative; flex: 1 1 auto; min-height: 0; border: 1px solid {{p.line}}; border-radius: 10px; box-sizing: border-box"><span style="position: absolute; top: 12px; left: 14px; font-size: 11px; letter-spacing: 0.04em">{{pjG.cur.cover}}</span></div>
+<sc-if value="{{pjG.cur.hasMore}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 80px; display: grid; grid-template-columns: repeat({{pjG.cur.moreN}}, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{pjG.cur.more}}" as="img" hint-placeholder-count="4">
+<div class="wn-ph" role="img" aria-label="{{img.caption}}" title="{{img.caption}}" style="position: relative; border: 1px solid {{p.line}}; border-radius: 6px; box-sizing: border-box; overflow: hidden"><span style="position: absolute; left: 6px; right: 6px; bottom: 5px; font-size: 10px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{img.caption}}</span></div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<div class="wn-noscroll" style="flex: 1 1 48%; min-width: 0; min-height: 0; overflow-y: auto">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding-top: 6px"><span style="font-family: 'Playfair Display', Georgia, serif; font-size: 30px; line-height: 1">{{pjG.cur.num}}</span><span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase">{{pjG.cur.when}}</span></div>
+<button id="{{pjG.cur.backId}}" class="wn-close" type="button" aria-label="Back to all projects" onClick="{{pjG.close}}" style="flex: 0 0 auto; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #000000; background: transparent; color: #000000; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+<h3 style="margin: 8px 0 0; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(26px, 2.4vw, 32px); font-weight: 400; line-height: 1.2">{{pjG.cur.title}}</h3>
+<p style="margin: 14px 0 0; font-size: 15px; line-height: 1.7">{{pjG.cur.text}}</p>
+</div>
+</div>
+</sc-if>
+</sc-if>
+</sc-if>
+
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{cw.dialog}}" hint-placeholder-val="{{ false }}">
+<div class="wn-backdrop" onClick="{{closeCourse}}" style="position: fixed; inset: 0; z-index: 60; background: rgba(18, 18, 16, 0.28); display: flex; align-items: center; justify-content: center; padding: 32px 16px; box-sizing: border-box">
+<div class="wn-window {{paperClass}} {{bigClass}}" role="dialog" aria-modal="true" aria-labelledby="wn-course-title" onClick="{{stop}}" onKeyDown="{{courseKey}}" style="width: 100%; max-width: 860px; max-height: calc(100vh - 96px); display: flex; flex-direction: column; background-color: {{p.panel}}; border: 1px solid {{p.line}}; border-radius: 10px; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25); overflow: hidden; color: #000000; font-family: Lato, sans-serif">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 26px 36px 20px; border-bottom: 1px solid {{p.line}}">
+<div style="min-width: 0">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{tx.courseLabel}}</div>
+<h3 id="wn-course-title" style="margin: 6px 0 0; font-family: 'Playfair Display', Georgia, serif; font-size: 28px; font-weight: 400; line-height: 1.2">{{cw.c.name}}</h3>
+</div>
+<button class="wn-close" type="button" aria-label="{{tx.closeCourse}}" ref="{{setCourseClose}}" onClick="{{closeCourse}}" style="flex: 0 0 auto; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #000000; background: transparent; color: #000000; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+</button>
+</div>
+<div style="position: relative; z-index: 0; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column">
+<div class="ed-mark ed-padova" aria-hidden="true" style="position: absolute; z-index: -1; top: 24px; right: 36px; bottom: 24px; left: 36px; opacity: 0.08; pointer-events: none"></div>
+<div class="wn-cbody" style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 22px 36px 32px; font-size: 15px; line-height: 1.65">
+<div style="font-size: 14px"><span style="font-weight: 700">{{tx.taughtBy}}</span> {{cw.c.who}}</div>
+<p style="margin: 12px 0 0; font-size: 16px; line-height: 1.7">{{cw.c.desc}}</p>
+<sc-for list="{{cw.c.sections}}" as="sec" hint-placeholder-count="3">
+<div style="margin-top: 22px; padding-top: 18px; border-top: 1px solid {{p.line}}">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase">{{sec.title}}</div>
+<ul style="margin: 10px 0 0; padding-left: 20px">
+<sc-for list="{{sec.items}}" as="it" hint-placeholder-count="4"><li style="margin-top: 8px"><sc-if value="{{it.hasLead}}" hint-placeholder-val="{{ false }}"><span style="font-weight: 700">{{it.lead}} </span></sc-if>{{it.text}}</li></sc-for>
+</ul>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{lp.zoomOn}}" hint-placeholder-val="{{ false }}">
+<div class="zm-backdrop" role="dialog" aria-modal="true" aria-label="{{lp.cur.mainCaption}}" onClick="{{lp.zoomClose}}" onKeyDown="{{lp.zoomKey}}" style="position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 76px 96px 28px; box-sizing: border-box; background: rgba(238, 235, 226, 0.97); color: #000000; font-family: Lato, sans-serif">
+<img class="zm-img" src="{{lp.cur.mainSrc}}" data-src="{{lp.cur.mainSrc}}" alt="{{lp.cur.mainCaption}}" onClick="{{stop}}" onError="{{imgErr}}" onLoad="{{imgOk}}" style="display: block; max-width: 100%; max-height: calc(100vh - 170px); object-fit: contain; border-radius: 8px; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22)">
+<p onClick="{{stop}}" style="margin: 0; max-width: 960px; font-size: 15px; line-height: 1.5; text-align: center">{{lp.cur.mainCaption}}<sc-if value="{{lp.cur.hasThumbs}}" hint-placeholder-val="{{ true }}"><span style="opacity: 0.7"> · {{lp.cur.imgPos}}</span></sc-if></p>
+<button class="wn-close" type="button" aria-label="{{tx.closeImage}}" ref="{{lp.setZoomClose}}" onClick="{{lp.zoomClose}}" style="position: absolute; top: 18px; right: 18px; width: 48px; height: 48px; border-radius: 999px; border: 1px solid #000000; background: transparent; color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+<sc-if value="{{lp.cur.hasThumbs}}" hint-placeholder-val="{{ true }}">
+<button class="lp-arrow" type="button" aria-label="{{tx.prevImg}}" onClick="{{lp.zoomPrev}}" style="position: absolute; top: 50%; left: 20px; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 999px; border: 1px solid #000000; background: rgba(250, 248, 242, 0.92); color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<button class="lp-arrow" type="button" aria-label="{{tx.nextImg}}" onClick="{{lp.zoomNext}}" style="position: absolute; top: 50%; right: 20px; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 999px; border: 1px solid #000000; background: rgba(250, 248, 242, 0.92); color: #000000; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+</sc-if>
+</div>
+</sc-if>
+
+</div>
+</template>
+
+<noscript><p style="padding: 24px; font-family: sans-serif">This website needs JavaScript. Please turn it on to see the page.</p></noscript>
+
+<script src="assets/js/preact.min.js"></script>
+<script src="assets/data/site-data.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
